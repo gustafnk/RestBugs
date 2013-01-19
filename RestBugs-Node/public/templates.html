@@ -1,0 +1,19 @@
+<div>
+
+  <script id="column-template" type="text/x-handlebars-template">
+    <div class="container-fluid">
+      <div class="row-fluid">
+        {{{html}}}
+      </div>    
+    </div>
+  </script>
+
+  <script id="bugs-template" type="text/x-handlebars-template">    
+  <div class="span3">
+    {{#each bugs}}
+      <div>{{title}}, {{description}}</div>      
+    {{/each}}    
+  </div> 
+  </script>  
+
+</div>

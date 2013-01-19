@@ -15,6 +15,7 @@ app.configure(function(){
 		layout: false
 	});
 	app.use(express.bodyParser());	//where is app.use defined and what does it do??
+	app.use(express.static(__dirname + '/public'));
 });
 
 /*Helper functions*/
@@ -185,4 +186,4 @@ app.post('/bugs/done', function(req, res){
 });
 
 /*first, let's remove any initial values in the database*/
-db.bugs.remove({});
+//db.bugs.remove({});
