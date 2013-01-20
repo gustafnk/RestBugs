@@ -42,7 +42,7 @@ $(function(){
   window.selfUrl = $("a[rel=index]").attr("href");
 
   // Load template and bootstrap angular
-  $.ajax({url: "../templates.html"}).done(function(templates){  
+  $.ajax({url: "/templates.html"}).done(function(templates){  
      
     var template = $("#angular-template", $(templates)).text();            
     $("body").html(template);
