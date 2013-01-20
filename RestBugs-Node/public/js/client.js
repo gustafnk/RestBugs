@@ -17,9 +17,19 @@ function MyController($scope, $http) {
           var bugsToParse = $(".all li", $(xmlDoc.getElementById("bugs")));
 
           var bugs = _.map(bugsToParse, function(bugToParse){
+            var actions = _.map($("form", bugToParse), function(form){
+              return {
+                action: $(form).attr("action"),
+                method: $(form).attr("method"),
+                id: $("input[name=id]", form).attr("value"),
+                name: $("input[name=submit]", form).attr("value"),
+              };
+            });
+            
             return {
               title: $(".title", bugToParse).text(),
               description: $(".description", bugToParse).text(),
+              actions: actions
             };
           });
 

@@ -10,15 +10,17 @@
         <!-- {{categories | json}} -->
 
         <div class="span3" ng-repeat="category in categories | orderBy:'order'">
-            <h3 ng-bind="category.name"></h3>
-            <ul>
-              <li ng-repeat="bug in category.bugs">
-                <div>Title: <span ng-bind="bug.title"></span></div>
-                <div>Description: <span ng-bind="bug.description"></span></div>
+            <h2 ng-bind="category.name"></h2>
+            <ul class="unstyled">
+              <li class="well" ng-repeat="bug in category.bugs">
+                <strong ng-bind="bug.title"></strong>
+                <div ng-bind="bug.description"></div>
+                <div ng-repeat="action in bug.actions">
+                  <button action="{{action.action}}" class="btn">{{action.name}}</button>
+                </div>
               </li>
-            </ul>
-            
-        </div>      
+            </ul>            
+        </div>   
 
     </div>
   </script>
