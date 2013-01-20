@@ -1,27 +1,19 @@
-$(function(){
-  
-  // Show loading text  
-  var loadingTemplate = Handlebars.compile($("#loading-template").html()); 
-  $("body").html(loadingTemplate());
+var myModule = angular.module('myModule', []);
+function MyController($scope, $http) {
+    
+    var parser = new DOMParser();
 
-  // Load templates
-  $.ajax({url: "templates.html"}).done(function(data){  
-    var templates = data;      
-    var columnTemplate = Handlebars.compile($("#column-template", $(templates)).html()); 
-
-    $.ajax({url: $("a[rel=index]").attr("href")}).done(function(data){      
+    $http.get(window.selfUrl).success(function(data) {
       
-      var i = 1;
-
-      var states = [];
-      var rels = $("a[rel!=index]", data);
-      _.each(rels, function(item){              
-        var promise = $.ajax({url: $(item).attr("href")});              
-        promise.then(function(data){                  
-
-          var parser = new DOMParser();
+      $scope.categories = [];
+            
+      var rels = $("a[rel!=index]", data);      
+      
+      _.each(rels, function(link, index){   
+        
+        $http.get($(link).attr("href")).success(function(data){                  
+          
           var xmlDoc = parser.parseFromString(data,"text/xml");
-
           var bugsToParse = $(".all li", $(xmlDoc.getElementById("bugs")));
 
           var bugs = _.map(bugsToParse, function(bugToParse){
@@ -31,26 +23,32 @@ $(function(){
             };
           });
 
-          var bugsTemplate = Handlebars.compile($("#bugs-template", $(templates)).html()); 
-      
-          var html =  bugsTemplate({bugs: bugs});
-          states.push(html);        
+          var viewModel = {
+            name: $(link).attr("rel"), 
+            bugs: bugs, 
+            order: index
+          };
 
-          if (i === rels.length) {            
-            var columns = columnTemplate({html: states.join("")});
-            $("body").html(columns);
-          }
-
-          i += 1;                                          
-        });
-                         
+          $scope.categories.push(viewModel);
+          
+        });      
       });
-      
-    });
 
-    $("body").html();
+    });    
+}
+
+$(function(){
+    
+  window.selfUrl = $("a[rel=index]").attr("href");
+
+  // Load template and bootstrap angular
+  $.ajax({url: "templates.html"}).done(function(templates){  
+     
+    var template = $("#angular-template", $(templates)).text();            
+    $("body").html(template);
+    
+    var containerElement = $('body');
+    angular.bootstrap(containerElement, ['myModule']);    
   });
-
-
 
 });

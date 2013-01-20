@@ -1,19 +1,26 @@
 <div>
 
-  <script id="column-template" type="text/x-handlebars-template">
+  <script id="angular-template" type="text/x-handlebars-template">
     <div class="container-fluid">
-      <div class="row-fluid">
-        {{{html}}}
-      </div>    
+      <div id="settingsContainer" class="row-fluid"></div>
+    </div>
+
+    <div ng-app="myModule" id="ng-app" ng-controller="MyController">
+                      
+        <!-- {{categories | json}} -->
+
+        <div class="span3" ng-repeat="category in categories | orderBy:'order'">
+            <h3 ng-bind="category.name"></h3>
+            <ul>
+              <li ng-repeat="bug in category.bugs">
+                <div>Title: <span ng-bind="bug.title"></span></div>
+                <div>Description: <span ng-bind="bug.description"></span></div>
+              </li>
+            </ul>
+            
+        </div>      
+
     </div>
   </script>
-
-  <script id="bugs-template" type="text/x-handlebars-template">    
-  <div class="span3">
-    {{#each bugs}}
-      <div>{{title}}, {{description}}</div>      
-    {{/each}}    
-  </div> 
-  </script>  
 
 </div>
