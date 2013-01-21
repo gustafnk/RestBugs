@@ -1,50 +1,50 @@
 var myModule = angular.module('myModule', []);
 function MyController($scope, $http) {
     
-    var parser = new DOMParser();
+  var parser = new DOMParser();
 
-    $http.get(window.selfUrl).success(function(data) {
-      
-      $scope.categories = [];
-            
-      var rels = $("a[rel!=index]", data);      
-      
-      _.each(rels, function(link, index){   
-        
-        $http.get($(link).attr("href")).success(function(data){                  
+  $http.get(window.selfUrl).success(function(data) {
+    
+    $scope.categories = [];
           
-          var xmlDoc = parser.parseFromString(data,"text/xml");
-          var bugsToParse = $(".all li", $(xmlDoc.getElementById("bugs")));
+    var rels = $("a[rel!=index]", data);      
+    
+    _.each(rels, function(link, index){   
+      
+      $http.get($(link).attr("href")).success(function(data){                  
+        
+        var xmlDoc = parser.parseFromString(data,"text/xml");
+        var bugsToParse = $(".all li", $(xmlDoc.getElementById("bugs")));
 
-          var bugs = _.map(bugsToParse, function(bugToParse){
-            var actions = _.map($("form", bugToParse), function(form){
-              return {
-                action: $(form).attr("action"),
-                method: $(form).attr("method"),
-                id: $("input[name=id]", form).attr("value"),
-                name: $("input[name=submit]", form).attr("value"),
-              };
-            });
-            
+        var bugs = _.map(bugsToParse, function(bugToParse){
+          var actions = _.map($("form", bugToParse), function(form){
             return {
-              title: $(".title", bugToParse).text(),
-              description: $(".description", bugToParse).text(),
-              actions: actions
+              action: $(form).attr("action"),
+              method: $(form).attr("method"),
+              id: $("input[name=id]", form).attr("value"),
+              name: $("input[name=submit]", form).attr("value"),
             };
           });
 
-          var viewModel = {
-            name: $(link).attr("rel"), 
-            bugs: bugs, 
-            order: index
+          return {
+            title: $(".title", bugToParse).text(),
+            description: $(".description", bugToParse).text(),
+            actions: actions
           };
+        });
 
-          $scope.categories.push(viewModel);
-          
-        });      
-      });
+        var viewModel = {
+          name: $(link).attr("rel"), 
+          bugs: bugs, 
+          order: index
+        };
 
-    });    
+        $scope.categories.push(viewModel);
+        
+      });      
+    });
+
+  });    
 }
 
 $(function(){
