@@ -1,8 +1,19 @@
 var myModule = angular.module('myModule', []);
 function MyController($scope, $http) {
     
-  var parser = new DOMParser();
+  $scope.move = function(action){
+    //console.log(JSON.stringify(action));
+    if (action.method === "POST") {
+      $http.post(action.action, {id: action.id}).success(function(data) {
+        // TODO
+      });  
+    }
+    else {
+      // Possible future support for PUT, etc..
+    }
+  }
 
+  var parser = new DOMParser();
   $http.get(window.selfUrl).success(function(data) {
     
     $scope.categories = [];
