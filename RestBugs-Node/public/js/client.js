@@ -1,26 +1,27 @@
 var myModule = angular.module('myModule', []);
 function MyController($scope, $http) {
+
+  $scope.getIndexForCategory = function(name){
+    return _.indexOf($scope.categories, _.find($scope.categories, function(c, i){ return c.name === name}))
+  }
+
+  $scope.move = function(args){
+    var action = args.action;
     
-  $scope.move = function(action){
-    //console.log(JSON.stringify(action));
-    if (action.method === "POST") {
+    if (action.method === "POST") {      
       $http.post(action.action, {id: action.id}).success(function(data) {
-        // TODO
-      });  
+        $scope.loadAndRender();
+      });
     }
     else {
       // Possible future support for PUT, etc..
     }
   }
 
-  var parser = new DOMParser();
-  $http.get(window.selfUrl).success(function(data) {
-    
-    $scope.categories = [];
-          
-    var rels = $("a[rel!=index]", data);      
-    
-    _.each(rels, function(link, index){   
+  $scope.loadAndRender = function(rels){
+        
+    var rels = $scope.rels;
+    _.each(rels, function(link, index){
       
       $http.get($(link).attr("href")).success(function(data){                  
         
@@ -28,11 +29,14 @@ function MyController($scope, $http) {
         var bugsToParse = $(".all li", $(xmlDoc.getElementById("bugs")));
 
         var bugs = _.map(bugsToParse, function(bugToParse){
+          
           var actions = _.map($("form", bugToParse), function(form){
+          
             return {
               action: $(form).attr("action"),
+              nextCategory: $(form).attr("class").split(" ")[1], // TODO Make more robust
               method: $(form).attr("method"),
-              id: $("input[name=id]", form).attr("value"),
+              id: id = $("input[name=id]", form).attr("value"),
               name: $("input[name=submit]", form).attr("value"),
             };
           });
@@ -40,7 +44,7 @@ function MyController($scope, $http) {
           return {
             title: $(".title", bugToParse).text(),
             description: $(".description", bugToParse).text(),
-            actions: actions
+            actions: actions            
           };
         });
 
@@ -49,11 +53,24 @@ function MyController($scope, $http) {
           bugs: bugs, 
           order: index
         };
-
-        $scope.categories.push(viewModel);
         
+        var indexForCategory = $scope.getIndexForCategory(viewModel.name);        
+        if (indexForCategory === -1)
+          $scope.categories.push(viewModel);
+        else
+          $scope.categories[indexForCategory] = viewModel;
       });      
     });
+  }
+
+  var parser = new DOMParser();
+  $http.get(window.selfUrl).success(function(data) {
+    
+    $scope.categories = [];
+          
+    $scope.rels = $("a[rel!=index]", data);      
+    
+    $scope.loadAndRender();
 
   });    
 }
