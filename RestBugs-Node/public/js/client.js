@@ -2,7 +2,8 @@ var myModule = angular.module('myModule', []);
 function MyController($scope, $http) {
 
   $scope.getIndexForCategory = function(name){
-    return _.indexOf($scope.categories, _.find($scope.categories, function(c, i){ return c.name === name}))
+    var category = _.find($scope.categories, function(c, i){ return c.name === name});
+    return _.indexOf($scope.categories, category);
   }
 
   $scope.move = function(args){
@@ -10,7 +11,7 @@ function MyController($scope, $http) {
     
     if (action.method === "POST") {      
       $http.post(action.action, {id: action.id}).success(function(data) {
-        $scope.loadAndRender();
+        $scope.loadAndRender([args.currentCategory, action.nextCategory]);
       });
     }
     else {
@@ -18,9 +19,10 @@ function MyController($scope, $http) {
     }
   }
 
-  $scope.loadAndRender = function(rels){
-        
+  $scope.loadAndRender = function(){
+            
     var rels = $scope.rels;
+      
     _.each(rels, function(link, index){
       
       $http.get($(link).attr("href")).success(function(data){                  
@@ -68,8 +70,14 @@ function MyController($scope, $http) {
     
     $scope.categories = [];
           
-    $scope.rels = $("a[rel!=index]", data);      
-    
+    var links = $("a[rel!=index]", data);      
+    $scope.rels = _.map(links, function(link){
+      return {
+        rel: $(link).attr("rel"), 
+        href: $(link).attr("href")
+      };
+    });
+
     $scope.loadAndRender();
 
   });    
