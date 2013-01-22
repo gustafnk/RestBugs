@@ -95,7 +95,7 @@ function MyController($scope, $http) {
         });
         
       });      
-    });
+    });   
   }
 
   var parser = new DOMParser();
@@ -125,9 +125,10 @@ $(function(){
      
     var template = $("#angular-template", $(templates)).text();            
     $("body").html(template);
+    $("body").show();
     
     var containerElement = $('body');
-    angular.bootstrap(containerElement, ['myModule']);    
+    angular.bootstrap(containerElement, ['myModule']); 
   });
 
 });
