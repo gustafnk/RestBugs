@@ -1,0 +1,10 @@
+.category {
+  background-color: pink;
+  padding: 10px;
+  min-height: 100%;
+}
+
+.droparea {
+  background-color: yellow;
+  min-height: 100%;
+}

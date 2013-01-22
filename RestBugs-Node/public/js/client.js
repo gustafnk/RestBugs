@@ -1,3 +1,6 @@
+// TODO
+// btn-primary for nexts
+
 var myModule = angular.module('myModule', []);
 function MyController($scope, $http) {
 
@@ -9,7 +12,7 @@ function MyController($scope, $http) {
   $scope.move = function(args){
     var action = args.action;
     
-    if (action.method === "POST") {      
+    if (action.method === "POST") {
       $http.post(action.action, {id: action.id}).success(function(data) {
         $scope.loadAndRender([args.currentCategory, action.nextCategory]);
       });
@@ -61,6 +64,36 @@ function MyController($scope, $http) {
           $scope.categories.push(viewModel);
         else
           $scope.categories[indexForCategory] = viewModel;
+
+        _.defer(function(){
+          $(".bug").draggable({ snap: ".droparea" });
+          $(".droparea").droppable({drop: function(event, ui){
+
+            var targetClass = $(this).parent(".category").attr("class");
+            var targetCategory = targetClass.split(" ")[1];
+
+            var draggable = $(ui.draggable);
+            var button = $("button." + targetCategory, draggable);            
+
+            if (button.length === 0) {
+              alert("Not allowed!");
+              return;
+            }             
+
+            var sourceClass = button.parents(".category").attr("class");
+            var sourceCategory = sourceClass.split(" ")[1];
+
+            var action = {
+              action: button.data("action"),
+              nextCategory: targetCategory,
+              method: button.data("method"),
+              id: id = button.data("id")
+            };
+
+            $scope.move({currentCategory: sourceCategory, action: action});            
+          }});  
+        });
+        
       });      
     });
   }
