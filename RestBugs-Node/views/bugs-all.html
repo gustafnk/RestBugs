@@ -21,13 +21,13 @@
                         <li>
                             Title: <span class="title"><%= bug.title %></span>
                             Description: <span class="description"><%= bug.description %></span>
-                            Assigned To: <span class="assigned-to"><%= bug.assignedTo %></span>
+                            <!-- Assigned To: <span class="assigned-to"><%= bug.assignedTo %></span>-->
 
                             <% if(bug.status == "Backlog") { %>
 
                             <form class="move working next" action="/bugs/working" method="POST" title="Move to Working" >
                                 <input name="id" type="hidden" value="<%= bug._id %>"/>
-                                <input name="comments" type="text" value=""/>
+                                <!--<input name="comments" type="text" value=""/>-->
                                 <input name="submit" type="submit" value="Move to Working"/>
                             </form>
 
@@ -38,12 +38,12 @@
 
                             <form class="move backlog" action="/bugs/backlog" method="POST" title="Move to Backlog" >
                                 <input name="id" type="hidden" value="<%= bug._id %>"/>
-                                <input name="comments" type="text" value=""/>
+                                <!--<input name="comments" type="text" value=""/>-->
                                 <input name="submit" type="submit" value="Move to Backlog"/>
                             </form>
                             <form class="move qa next" action="/bugs/qa" method="POST" title="Move to QA" >
                                 <input name="id" type="hidden" value="<%= bug._id %>"/>
-                                <input name="comments" type="text" value=""/>
+                                <!--<input name="comments" type="text" value=""/>-->
                                 <input name="submit" type="submit" value="Move to QA"/>
                             </form>
 
@@ -53,7 +53,7 @@
                             
                             <form class="move working" action="/bugs/working" method="POST" title="Move to Working" >
                                 <input name="id" type="hidden" value="<%= bug._id %>"/>
-                                <input name="comments" type="text" value=""/>
+                                <!--<input name="comments" type="text" value=""/>-->
                                 <input name="submit" type="submit" value="Move to Working"/>
                             </form>
 

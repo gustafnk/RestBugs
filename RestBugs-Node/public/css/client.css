@@ -8,3 +8,40 @@
   background-color: yellow;
   min-height: 100%;
 }
+
+/* Mobile */
+/*
+form.new input {
+  display: block;
+  width: 100%;
+}
+
+div#links {
+  display: block;
+  width: 100%;
+}
+
+div#links a {
+  display: block;
+  width: 90%;
+  background-color: #ccc;
+  padding: 10px;
+  margin: 0 auto;
+  text-align: center;
+  color: #000;
+}
+
+div#bugs {
+  color: #aaa;
+}
+
+div#bugs span {
+  display: block;
+  margin-bottom: 10px;
+  color: #000;
+}
+
+div#bugs ul {
+  margin-left: 0;
+  list-style: none;
+}*/
