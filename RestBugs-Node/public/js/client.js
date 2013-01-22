@@ -23,6 +23,10 @@ function MyController($scope, $http) {
     }
   }
 
+  $scope.add = function(){
+    $(".addFormContainer").toggle();
+  }
+
   $scope.loadAndRender = function(){
             
     var rels = $scope.rels;
@@ -105,6 +109,9 @@ function MyController($scope, $http) {
     $scope.categories = [];
           
     var links = $("a[rel!=index]", data);      
+    var addForm = $("form.new", data);
+    $(".addFormContainer").html(addForm);
+
     $scope.rels = _.map(links, function(link){
       return {
         rel: $(link).attr("rel"), 
@@ -124,10 +131,11 @@ $(function(){
   // Load template and bootstrap angular
   $.ajax({url: "/templates.html"}).done(function(templates){  
      
-    var template = $("#angular-template", $(templates)).text();            
+    var template = $("#angular-template", $(templates)).text();
+
     $("body").html(template);
     $("body").show();
-    
+    $(".addFormContainer").hide();
     var containerElement = $('body');
     angular.bootstrap(containerElement, ['myModule']); 
   });

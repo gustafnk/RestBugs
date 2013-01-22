@@ -1,12 +1,26 @@
 .category {
   background-color: pink;
   padding: 10px;
-  min-height: 100%;
+  min-height: 75%;
 }
 
 .droparea {
   background-color: yellow;
   min-height: 100%;
+}
+
+.addFormContainer {
+  width: 400px;
+  margin-left: 30px;
+}
+
+.addFormContainer form {
+  background-color: #ccc;
+  padding: 50px;
+}
+
+.addFormContainer input {
+  display: block;
 }
 
 /* Mobile */

@@ -1,14 +1,21 @@
 <div>
 
   <script id="angular-template" type="text/x-handlebars-template">
-    <div class="container-fluid">
-      <div id="settingsContainer" class="row-fluid"></div>
-    </div>
+    <div class="container-fluid" ng-app="myModule" id="ng-app" ng-controller="MyController">
+      <header>
+        <div class="navbar">
+          <div class="navbar-inner">
+            <ul class="nav">
+              <li><a href="#" ng-click="add()">Add bug</a></li>
+            </ul>
+          </div>
+        </div>
+      </header>
 
-    <div ng-app="myModule" id="ng-app" ng-controller="MyController">
-                      
-        <!-- {{categories | json}} -->
+      <div class="addFormContainer"></div>
 
+      <!-- {{categories | json}} -->
+      <div class="categories">
         <div class="category {{category.name}} span3" ng-repeat="category in categories | orderBy:'order'">
             <h2 ng-bind="category.name"></h2>
             <div class="droparea">
@@ -23,6 +30,7 @@
               </ul>
             </div>
         </div>   
+      </div>
 
     </div>
   </script>
