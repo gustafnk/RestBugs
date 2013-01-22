@@ -14,7 +14,7 @@ function MyController($scope, $http) {
     
     if (action.method === "POST") {
       $http.post(action.action, {id: action.id}).success(function(data) {
-        $scope.loadAndRender([args.currentCategory, action.nextCategory]);
+        $scope.loadAndRender();
       });
     }
     else {
