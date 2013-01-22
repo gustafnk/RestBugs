@@ -76,7 +76,7 @@ function MyController($scope, $http) {
             var button = $("button." + targetCategory, draggable);            
 
             if (button.length === 0) {
-              alert("Not allowed!");
+              $scope.loadAndRender();
               return;
             }             
 
