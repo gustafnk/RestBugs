@@ -64,10 +64,16 @@ function newbug(title, description){
 /*API Surface*/
 
 app.get('/bugs', function(req, res){
+	console.log();
 	res.render('bugs-all.html', { title: "Bugs API root"});
 });
 
 app.get('/bugs/backlog', function(req, res){
+
+	//var userAgent = req.headers["user-agent"];
+	//console.log(userAgent);
+	// TODO Grep for Mobile and load different js and css
+
 	db.bugs.find({status: 'Backlog'}, function(err, docs) {
 		res.render('bugs-all.html', { 
 			title: "Backlog", 
@@ -79,7 +85,17 @@ app.get('/bugs/backlog', function(req, res){
 app.post('/bugs/backlog', function(req, res){
 
 	var setResponse = function(res){
-		res.redirect("/bugs/");		
+		var host = req.headers.host;
+		if (host && host.indexOf("9200") !== -1)
+			res.redirect("/bugs/");
+		else {
+			var statusCode = 201;
+			res.statusCode = statusCode;
+			res.render("response.html", {
+				statusCode: statusCode,
+				body: "Created bug"
+			});
+		}
 	};
 
 	//todo: consider replacing with upsert-style call
