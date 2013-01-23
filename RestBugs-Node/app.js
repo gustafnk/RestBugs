@@ -77,16 +77,23 @@ app.get('/bugs/backlog', function(req, res){
 });
 
 app.post('/bugs/backlog', function(req, res){
+
+	var setResponse = function(res){
+		res.redirect("/bugs/");		
+	};
+
 	//todo: consider replacing with upsert-style call
 	if(req.body.id===undefined) {
+
+		// NOTE For debugging
+		//setResponse(res);
+		//return;
+
 		db.bugs.save(
 			newbug(req.body.title, req.body.description), 
 			function(err, savedDoc) {
 				db.bugs.find( {status: 'Backlog'}, function(err, docs) {
-					res.render('response.html', {
-						title: "Bug added!",
-						refresh: true
-					});
+					setResponse(res);		
 				});
 		});
 	} else {
