@@ -83,9 +83,9 @@ app.post('/bugs/backlog', function(req, res){
 			newbug(req.body.title, req.body.description), 
 			function(err, savedDoc) {
 				db.bugs.find( {status: 'Backlog'}, function(err, docs) {
-					res.render('bugs-all.html', {
-						title: 'Backlog',
-						model: docs
+					res.render('response.html', {
+						title: "Bug added!",
+						refresh: true
 					});
 				});
 		});
