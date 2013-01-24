@@ -1,8 +1,6 @@
 <html>
 	<head>
-		<title><%= title %></title>        
-        <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen" />
-        <link href="/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen" />
+		<title><%= title %></title>                
         <link href="/css/mobile.css" rel="stylesheet" media="screen" />
         <script src="/js/jquery-1.9.0.min.js"></script>
         <script src="/js/harvey.js"></script>       
@@ -15,9 +13,9 @@
 
                     $("body").hide();
                     $(function(){
-                        $.getScript("/js/client.js");
+                        $.getScript("/js/client.min.js");
                         $('head link, head style').remove();
-                        $.get("/css/client.css", function(css) {
+                        $.get("/css/client.min.css", function(css) {
                            $('<style type="text/css"></style>')
                               .html(css)
                               .appendTo("head");
@@ -129,11 +127,5 @@
             <a href="/bugs/qa" rel="qa">In QA</a><br/>
             <a href="/bugs/done" rel="done">Done</a>    
         </div>
-        
-        <script src="/js/jquery-ui-1.10.0.custom.min.js"></script>
-        <script src="/js/underscore-min.js"></script>
-        <script src="/js/bootstrap.min.js"></script>
-        <script src="/js/angular.min.js"></script>
-    
     </body>
 </html>
