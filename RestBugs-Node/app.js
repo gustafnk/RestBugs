@@ -65,7 +65,7 @@ function newbug(title, description){
 
 app.get('/bugs', function(req, res){
 	console.log();
-	res.render('bugs-all.html', { title: "Bugs API root"});
+	res.render('bugs-all.html', { title: "Index"});
 });
 
 app.get('/bugs/backlog', function(req, res){

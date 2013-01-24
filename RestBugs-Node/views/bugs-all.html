@@ -1,13 +1,13 @@
 <html>
 	<head>
-		<title><%= title %></title>                
+		<title>RestBugs : <%= title %></title>                
         <link href="/css/mobile.css" rel="stylesheet" media="screen" />
         <script src="/js/jquery-1.9.0.min.js"></script>
         <script src="/js/harvey.js"></script>       
 	</head>
     <body>
         <script>        
-            Harvey.attach('screen and (min-width:501px)', {
+            Harvey.attach('screen and (min-width:867px)', {
                 setup: function() {
                     console.log('SETUP', this.condition);
 
@@ -33,7 +33,7 @@
             });
         
         </script>
-        <h1></h1>
+        <h1>RestBugs : <%= title %></h1>
         <div id="bugs">
             <% if(typeof(model) != 'undefined') { %>
             
@@ -109,7 +109,7 @@
 
             <% if(typeof(model) == 'undefined') { %>
 
-            <h2>Add a new bug!</h2>
+            <h2>Add a new bug</h2>
             <form class="new backlog" action="/bugs/backlog" method="POST" title="Add a new bug" >
                 Title: <input name="title" type="text" value=""/>
                 Description: <input name="description" type="text" value=""/>
@@ -127,5 +127,13 @@
             <a href="/bugs/qa" rel="qa">In QA</a><br/>
             <a href="/bugs/done" rel="done">Done</a>    
         </div>
+
+        <!-- for debug
+        <script src="/js/jquery-ui-1.10.0.custom.min.js"></script>
+        <script src="/js/underscore-min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/angular.min.js"></script>
+        <script src="/js/client.js"></script>
+    -->
     </body>
 </html>
