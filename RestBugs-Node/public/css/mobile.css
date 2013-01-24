@@ -1,6 +1,12 @@
 body {
   max-width: 500px;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  color: #333;
+  margin: 0 auto;
+  background-color: #f0f0f0;  
+  margin-top: 20px;
 }
+
 
 form.new input {
   display: block;
@@ -34,5 +40,17 @@ div#bugs span {
 
 div#bugs ul {
   margin-left: 0;
+  padding: 0;
   list-style: none;
+}
+
+div#bugs ul li {
+  background-color: yellow;
+  padding: 20px;
+  margin: 15px;
+}
+
+input {
+  padding: 15px;
+  margin-bottom: 20px;
 }
