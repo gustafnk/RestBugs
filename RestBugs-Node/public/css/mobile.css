@@ -1,3 +1,6 @@
+body {
+  max-width: 500px;
+}
 
 form.new input {
   display: block;

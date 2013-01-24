@@ -1,5 +1,4 @@
 // TODO
-// add new bug
 // btn-primary for nexts
 
 var myModule = angular.module('myModule', []);

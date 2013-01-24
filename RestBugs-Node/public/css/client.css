@@ -1,3 +1,6 @@
+@import url("/css/bootstrap.min.css");
+@import url("/css/bootstrap-responsive.min.css");
+
 .category {
   background-color: pink;
   padding: 10px;
