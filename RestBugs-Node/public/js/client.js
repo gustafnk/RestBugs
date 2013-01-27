@@ -1,5 +1,6 @@
 // TODO
 // btn-primary for nexts
+
 var myModule = angular.module('myModule', []);
 function MyController($scope, $http) {
 
@@ -102,29 +103,29 @@ function MyController($scope, $http) {
   }
 
   var parser = new DOMParser();
+  $http.get(window.selfUrl).success(function(data) {
+    
+    $scope.categories = [];
+          
+    var links = $("a[rel!=index]", data);      
+    var addForm = $("form.new", data);
+    $(".addFormContainer").html(addForm);
 
+    $scope.rels = _.map(links, function(link){
+      return {
+        rel: $(link).attr("rel"), 
+        href: $(link).attr("href")
+      };
+    });
 
-  $scope.categories = [];
-        
-  $scope.rels = window.links;
+    $scope.loadAndRender();
 
-  $scope.loadAndRender();
-
-  
+  });    
 }
 
 $(function(){
     
-  var links = $("a[rel!=index]");      
-  var addForm = $("form.new");
-  $(".addFormContainer").html(addForm);
-
-  window.links = _.map(links, function(link){
-    return {
-      rel: $(link).attr("rel"), 
-      href: $(link).attr("href")
-    };
-  });
+  window.selfUrl = $("a[rel=index]").attr("href");
 
   // Load template and bootstrap angular
   $.ajax({url: "/templates.html"}).done(function(templates){  
