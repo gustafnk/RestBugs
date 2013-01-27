@@ -14,7 +14,7 @@ function MyController($scope, $http) {
     
     if (action.method === "POST") {
       $http.post(action.action, {id: action.id}).success(function(data) {
-        $scope.loadAndRender();
+        $scope.load();
       });
     }
     else {
@@ -26,7 +26,7 @@ function MyController($scope, $http) {
     $(".addFormContainer").toggle();
   }
 
-  $scope.loadAndRender = function(){
+  $scope.load = function(){
           
     var rels = $scope.rels;
       
@@ -85,7 +85,7 @@ function MyController($scope, $http) {
         var button = $("button." + targetCategory, draggable);            
 
         if (button.length === 0) {
-          $scope.loadAndRender();
+          $scope.load();
           return;
         }             
 
@@ -117,7 +117,7 @@ function MyController($scope, $http) {
     };
   });
 
-  $scope.loadAndRender();
+  $scope.load();
 }
 
 var restbugs = window.restbugs || {};

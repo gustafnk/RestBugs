@@ -13,7 +13,7 @@
 
                     $("body").hide();
                     $(function(){
-                        $.getScript("/js/client.min.js");
+                        //$.getScript("/js/client.min.js");
                         $('head link, head style').remove();
                         $.get("/css/client.min.css", function(css) {
                            $('<style type="text/css"></style>')
@@ -128,12 +128,12 @@
             <a href="/bugs/done" rel="done">Done</a>    
         </div>
 
-        <!-- for debug
+        <!-- for debug -->
         <script src="/js/jquery-ui-1.10.0.custom.min.js"></script>
         <script src="/js/underscore-min.js"></script>
         <script src="/js/bootstrap.min.js"></script>
         <script src="/js/angular.min.js"></script>
         <script src="/js/client.js"></script>
-    -->
+    
     </body>
 </html>
