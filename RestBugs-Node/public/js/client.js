@@ -74,34 +74,40 @@ function MyController($scope, $http) {
     else
       $scope.categories[indexForCategory] = viewModel;
 
-    _.defer(function(){
-      $(".bug").draggable({ snap: ".droparea" });
-      $(".droparea").droppable({drop: function(event, ui){
+    _.defer($scope.enableDragAndDrop);  
+  }
 
-        var targetClass = $(this).parent(".category").attr("class");
-        var targetCategory = targetClass.split(" ")[1];
 
-        var draggable = $(ui.draggable);
-        var button = $("button." + targetCategory, draggable);            
+  $scope.enableDragAndDrop = function(){
 
-        if (button.length === 0) {
-          $scope.load();
-          return;
-        }             
+    var onDropped = function(event, ui){
 
-        var sourceClass = button.parents(".category").attr("class");
-        var sourceCategory = sourceClass.split(" ")[1];
+      var targetClass = $(this).parent(".category").attr("class");
+      var targetCategory = targetClass.split(" ")[1];
 
-        var action = {
-          action: button.data("action"),
-          nextCategory: targetCategory,
-          method: button.data("method"),
-          id: id = button.data("id")
-        };
+      var draggable = $(ui.draggable);
+      var button = $("button." + targetCategory, draggable);            
 
-        $scope.move({currentCategory: sourceCategory, action: action});            
-      }});  
-    });  
+      if (button.length === 0) {
+        $scope.load();
+        return;
+      }             
+
+      var sourceClass = button.parents(".category").attr("class");
+      var sourceCategory = sourceClass.split(" ")[1];
+
+      var action = {
+        action: button.data("action"),
+        nextCategory: targetCategory,
+        method: button.data("method"),
+        id: id = button.data("id")
+      };
+
+      $scope.move({currentCategory: sourceCategory, action: action});            
+    };
+
+    $(".bug").draggable({ snap: ".droparea" });
+    $(".droparea").droppable({drop: onDropped});
   }
 
   var parser = new DOMParser();
