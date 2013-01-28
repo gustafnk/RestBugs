@@ -42,9 +42,10 @@ function MyController($scope, $http) {
 
   $scope.loadBugs = function(xmlDoc, link, index){
     var bugsToParse = $(".all li", $(xmlDoc.getElementById("bugs")));
-    var bugs = _.map(bugsToParse, function(bugToParse){
-          
-      var actions = _.map($("form", bugToParse), function(form){
+
+    var parseBug = function(bugToParse){
+
+      var parseAction =function(form){
       
         return {
           action: $(form).attr("action"),
@@ -53,14 +54,19 @@ function MyController($scope, $http) {
           id: id = $("input[name=id]", form).attr("value"),
           name: $("input[name=submit]", form).attr("value"),
         };
-      });
+      };
 
+      var actions = _.map($("form", bugToParse), parseAction);
+      console.log("asdads");
+      
       return {
         title: $(".title", bugToParse).text(),
         description: $(".description", bugToParse).text(),
         actions: actions            
       };
-    });
+    };
+
+    var bugs = _.map(bugsToParse, parseBug);
 
     var viewModel = {
       name: $(link).attr("rel"), 
