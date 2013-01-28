@@ -4,26 +4,21 @@
 var myModule = angular.module('myModule', []);
 function MyController($scope, $http) {
 
-  $scope.getIndexForCategory = function(name){
-    var category = _.find($scope.categories, function(c, i){ return c.name === name});
-    return _.indexOf($scope.categories, category);
-  }
+  $scope.init = function(){
 
-  $scope.move = function(args){
-    var action = args.action;
-    
-    if (action.method === "POST") {
-      $http.post(action.action, {id: action.id}).success(function(data) {
-        $scope.load();
-      });
-    }
-    else {
-      // Possible future support for PUT, etc..
-    }
-  }
+    $scope.categories = [];
+    $scope.parser = new DOMParser();
 
-  $scope.add = function(){
-    $(".addFormContainer").toggle();
+    $scope.rels = _.map(restbugs.init.links, function(link){
+      return {
+        rel: $(link).attr("rel"), 
+        href: $(link).attr("href")
+      };
+    });
+
+    $scope.load();
+
+    $(".addFormContainer").html(restbugs.init.addForm);
   }
 
   $scope.load = function(){
@@ -59,6 +54,28 @@ function MyController($scope, $http) {
     _.defer($scope.enableDragAndDrop);  
   }
 
+  $scope.getIndexForCategory = function(name){
+    var category = _.find($scope.categories, function(c, i){ return c.name === name});
+    return _.indexOf($scope.categories, category);
+  }
+
+
+  $scope.move = function(args){
+    var action = args.action;
+    
+    if (action.method === "POST") {
+      $http.post(action.action, {id: action.id}).success(function(data) {
+        $scope.load();
+      });
+    }
+    else {
+      // Possible future support for PUT, etc..
+    }
+  }
+
+  $scope.add = function(){
+    $(".addFormContainer").toggle();
+  }
 
   $scope.enableDragAndDrop = function(){
 
@@ -90,23 +107,6 @@ function MyController($scope, $http) {
 
     $(".bug").draggable({ snap: ".droparea" });
     $(".droparea").droppable({drop: onDropped});
-  }
-
-  $scope.init = function(){
-
-    $scope.categories = [];
-    $scope.parser = new DOMParser();
-
-    $scope.rels = _.map(restbugs.init.links, function(link){
-      return {
-        rel: $(link).attr("rel"), 
-        href: $(link).attr("href")
-      };
-    });
-
-    $scope.load();
-
-    $(".addFormContainer").html(restbugs.init.addForm);
   }
 
   $scope.init();
