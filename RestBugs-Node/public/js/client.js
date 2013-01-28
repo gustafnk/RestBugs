@@ -1,8 +1,8 @@
 // TODO
 // btn-primary for nexts
 
-var myModule = angular.module('myModule', []);
-function MyController($scope, $http) {
+var board = angular.module('board', []);
+function BoardController($scope, $http) {
 
   $scope.init = function(){
 
@@ -130,7 +130,7 @@ restbugs.init = restbugs.init || (function() {
         $("body").show();
         $(".addFormContainer").hide();
         var containerElement = $('body');
-        angular.bootstrap(containerElement, ['myModule']); 
+        angular.bootstrap(containerElement, ['board']); 
       });
     }
   }    
