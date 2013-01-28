@@ -41,32 +41,8 @@ function MyController($scope, $http) {
   }
 
   $scope.loadBugs = function(xmlDoc, link, index){
-    var bugsToParse = $(".all li", $(xmlDoc.getElementById("bugs")));
-
-    var parseBug = function(bugToParse){
-
-      var parseAction =function(form){
-      
-        return {
-          action: $(form).attr("action"),
-          nextCategory: $(form).attr("class").split(" ")[1], // TODO Make more robust
-          method: $(form).attr("method"),
-          id: id = $("input[name=id]", form).attr("value"),
-          name: $("input[name=submit]", form).attr("value"),
-        };
-      };
-
-      var actions = _.map($("form", bugToParse), parseAction);
-      console.log("asdads");
-      
-      return {
-        title: $(".title", bugToParse).text(),
-        description: $(".description", bugToParse).text(),
-        actions: actions            
-      };
-    };
-
-    var bugs = _.map(bugsToParse, parseBug);
+    
+    var bugs = restbugs.domain.getBugs(xmlDoc);
 
     var viewModel = {
       name: $(link).attr("rel"), 
@@ -152,6 +128,43 @@ restbugs.init = restbugs.init || (function() {
         var containerElement = $('body');
         angular.bootstrap(containerElement, ['myModule']); 
       });
+    }
+  }    
+      
+  return module;
+}());
+
+var restbugs = window.restbugs || {};
+restbugs.domain = restbugs.dodmain || (function() {
+  "use strict";
+
+  var module = {
+    getBugs : function (xmlDoc){
+      var bugsToParse = $(".all li", $(xmlDoc.getElementById("bugs")));
+
+      var parseBug = function(bugToParse){
+
+        var parseAction =function(form){        
+          return {
+            action: $(form).attr("action"),
+            nextCategory: $(form).attr("class").split(" ")[1], // TODO Make more robust
+            method: $(form).attr("method"),
+            id: $("input[name=id]", form).attr("value"),
+            name: $("input[name=submit]", form).attr("value"),
+          };
+        };
+
+        var actions = _.map($("form", bugToParse), parseAction);
+
+        return {
+          title: $(".title", bugToParse).text(),
+          description: $(".description", bugToParse).text(),
+          actions: actions            
+        };
+    };
+
+    var bugs = _.map(bugsToParse, parseBug);
+    return bugs;
     }
   }    
       
