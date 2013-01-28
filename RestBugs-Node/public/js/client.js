@@ -34,7 +34,7 @@ function MyController($scope, $http) {
       
       $http.get($(link).attr("href")).success(function(data){                  
         
-        var xmlDoc = parser.parseFromString(data,"text/xml");
+        var xmlDoc = $scope.parser.parseFromString(data,"text/xml");
         $scope.loadBugs(xmlDoc, link, index);
       });      
     });   
@@ -92,20 +92,24 @@ function MyController($scope, $http) {
     $(".droparea").droppable({drop: onDropped});
   }
 
-  var parser = new DOMParser();
-      
-  $scope.categories = [];
-            
-  $(".addFormContainer").html(restbugs.init.addForm);
+  $scope.init = function(){
 
-  $scope.rels = _.map(restbugs.init.links, function(link){
-    return {
-      rel: $(link).attr("rel"), 
-      href: $(link).attr("href")
-    };
-  });
+    $scope.categories = [];
+    $scope.parser = new DOMParser();
 
-  $scope.load();
+    $scope.rels = _.map(restbugs.init.links, function(link){
+      return {
+        rel: $(link).attr("rel"), 
+        href: $(link).attr("href")
+      };
+    });
+
+    $scope.load();
+
+    $(".addFormContainer").html(restbugs.init.addForm);
+  }
+
+  $scope.init();
 }
 
 var restbugs = window.restbugs || {};
