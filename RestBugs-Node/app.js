@@ -78,7 +78,10 @@ function newbug(title, description){
 
 app.get('/bugs', function(req, res){
 	console.log();
-	res.render('bugs-all.html', { title: "Index"});
+	res.render('bugs-all.html', { 
+		title: "Index",
+		renderWeb: isHuman(req.headers.host)
+	});
 });
 
 app.get('/bugs/backlog', function(req, res){
@@ -90,18 +93,19 @@ app.get('/bugs/backlog', function(req, res){
 	db.bugs.find({status: 'Backlog'}, function(err, docs) {
 		res.render('bugs-all.html', { 
 			title: "Backlog", 
-			model: docs 
+			model: docs,
+			renderWeb: isHuman(req.headers.host)
 		});	
 	});
 });
 
+var isHuman = function(host){
+	return host && host.indexOf(webPort) !== -1
+};
+
 app.post('/bugs/backlog', function(req, res){
 
 	var setResponse = function(res){
-
-		var isHuman = function(host){
-			return host && host.indexOf(webPort) !== -1
-		};
 				
 		if (isHuman(req.headers.host)) {
 			res.redirect("/bugs/");
@@ -111,7 +115,8 @@ app.post('/bugs/backlog', function(req, res){
 			res.statusCode = statusCode;
 			res.render("response.html", {
 				statusCode: statusCode,
-				body: "Created bug"
+				body: "Created bug",
+				renderWeb: isHuman(req.headers.host)
 			});
 		}
 	};
@@ -140,7 +145,8 @@ app.post('/bugs/backlog', function(req, res){
 				db.bugs.find({status:'Backlog'}, function(err, docs){
 					res.render('bugs-all.html', { 
 						title: "Backlog", 
-						model: docs 
+						model: docs,
+						renderWeb: isHuman(req.headers.host)
 					});	
 				});
 			});
@@ -152,7 +158,8 @@ app.get('/bugs/working', function(req, res){
 	db.bugs.find({status:'Working'}, function(err, docs){
 		res.render('bugs-all.html', { 
 			title: "Working", 
-			model: docs 
+			model: docs,
+			renderWeb: isHuman(req.headers.host) 
 		});	
 	});
 });
@@ -167,7 +174,8 @@ app.post('/bugs/working', function(req, res){
 			db.bugs.find({status:'Working'}, function(err, docs){
 				res.render('bugs-all.html', { 
 					title: "Working", 
-					model: docs 
+					model: docs,
+					renderWeb: isHuman(req.headers.host) 
 				});	
 			});
 		});
@@ -178,7 +186,8 @@ app.get('/bugs/qa', function(req, res){
 	db.bugs.find({status:'QA'}, function(err, docs){
 		res.render('bugs-all.html', { 
 			title: "QA", 
-			model: docs 
+			model: docs,
+			renderWeb: isHuman(req.headers.host)
 		});	
 	});
 });
@@ -193,7 +202,8 @@ app.post('/bugs/qa', function(req, res){
 			db.bugs.find({status:'QA'}, function(err, docs){
 				res.render('bugs-all.html', { 
 					title: "QA", 
-					model: docs 
+					model: docs,
+					renderWeb: isHuman(req.headers.host) 
 				});	
 			});
 		});
@@ -204,7 +214,8 @@ app.get('/bugs/done', function(req, res){
 	db.bugs.find({status:'Done'}, function(err, docs){
 		res.render('bugs-all.html', { 
 			title: "Done", 
-			model: docs 
+			model: docs,
+			renderWeb: isHuman(req.headers.host)
 		});	
 	});
 });
@@ -219,7 +230,8 @@ app.post('/bugs/done', function(req, res){
 			db.bugs.find({status:'Done'}, function(err, docs){
 				res.render('bugs-all.html', { 
 					title: "Done", 
-					model: docs 
+					model: docs,
+					renderWeb: isHuman(req.headers.host)
 				});	
 			});
 		});

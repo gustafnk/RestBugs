@@ -1,11 +1,14 @@
 <html>
 	<head>
-		<title>RestBugs : <%= title %></title>                
-        <link href="/css/mobile.css" rel="stylesheet" media="screen" />
-        <script src="/js/jquery-1.9.0.min.js"></script>
-        <script src="/js/harvey.js"></script>       
+		<title>RestBugs : <%= title %></title> 
+        <% if(typeof(renderWeb) != 'undefined' && renderWeb) { %>
+            <link href="/css/mobile.css" rel="stylesheet" media="screen" />
+            <script src="/js/jquery-1.9.0.min.js"></script>
+            <script src="/js/harvey.js"></script>   
+        <% } %>    
 	</head>
     <body>
+        <% if(typeof(renderWeb) != 'undefined' && renderWeb) { %>
         <script>        
             Harvey.attach('screen and (min-width:867px)', {
                 setup: function() {
@@ -33,6 +36,7 @@
             });
         
         </script>
+        <% } %>
         <h1>RestBugs : <%= title %></h1>
         <div id="bugs">
             <% if(typeof(model) != 'undefined') { %>
