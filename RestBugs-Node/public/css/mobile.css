@@ -54,3 +54,7 @@ input {
   padding: 15px;
   margin-bottom: 20px;
 }
+
+form.next input[type=submit] {
+  font-weight: bold;
+}
