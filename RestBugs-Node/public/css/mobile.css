@@ -29,7 +29,7 @@ div#links a {
 }
 
 div#bugs {
-  color: #aaa;
+  color: #333;
 }
 
 div#bugs span {
@@ -45,7 +45,7 @@ div#bugs ul {
 }
 
 div#bugs ul li {
-  background-color: yellow;
+  background-color: pink;
   padding: 20px;
   margin: 15px;
 }
