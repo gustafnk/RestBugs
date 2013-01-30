@@ -89,16 +89,17 @@
                             <% } %>
 
                             <% if(bug.status == "QA") { %>
+                            
+                            <form class="move working" action="/bugs/working" method="POST" title="Move to Working" >
+                                <input name="id" type="hidden" value="<%= bug._id %>"/>
+                                <input name="comments" type="text" value=""/>
+                                <input name="submit" type="submit" value="Move to Working"/>
+                            </form>
 
                             <form class="move done next" action="/bugs/done" method="POST" title="Move to Done" >
                                 <input name="id" type="hidden" value="<%= bug._id %>"/>
                                 <input name="comments" type="text" value=""/>
                                 <input name="submit" type="submit" value="Move to Done"/>
-                            </form>
-                            <form class="move working" action="/bugs/working" method="POST" title="Move to Working" >
-                                <input name="id" type="hidden" value="<%= bug._id %>"/>
-                                <input name="comments" type="text" value=""/>
-                                <input name="submit" type="submit" value="Move to Working"/>
                             </form>
 
                             <% } %>
