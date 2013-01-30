@@ -6,8 +6,21 @@ var collections = ["bugs"];
 var mongo = require('mongojs');
 var db = mongo.connect(databaseUrl, collections);
 
+var port;
+if (process.argv[2])
+	port = parseInt(process.argv[2]);
+else {
+	console.log("No port number given! Here's an example:"); 
+	console.log(" $ node app.js 9200");
+	process.kill();
+	return;
+}
+
+
 var app = express.createServer();
-app.listen(9200);
+app.listen(port);
+
+var webPort = "9200";
 
 app.configure(function(){
 	app.register('.html', require('ejs'));
@@ -87,7 +100,7 @@ app.post('/bugs/backlog', function(req, res){
 	var setResponse = function(res){
 
 		var isHuman = function(host){
-			return host && host.indexOf("9200") !== -1
+			return host && host.indexOf(webPort) !== -1
 		};
 				
 		if (isHuman(req.headers.host)) {
