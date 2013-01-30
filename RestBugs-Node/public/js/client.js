@@ -9,7 +9,7 @@ function BoardController($scope, $http) {
     $scope.categories = [];
     $scope.parser = new DOMParser();
 
-    $scope.rels = _.map(restbugs.init.links, function(link){
+    $scope.rels = _.map(restbugs.init.links, function(link){ // Move to load
       return {
         rel: $(link).attr("rel"), 
         href: $(link).attr("href")
@@ -51,12 +51,8 @@ function BoardController($scope, $http) {
     else
       $scope.categories[indexForCategory] = viewModel;
 
-    _.defer($scope.enableDragAndDrop);  
-  }
 
-  $scope.getIndexForCategory = function(name){
-    var category = _.find($scope.categories, function(c, i){ return c.name === name});
-    return _.indexOf($scope.categories, category);
+    _.defer($scope.enableDragAndDrop);  
   }
 
 
@@ -72,6 +68,14 @@ function BoardController($scope, $http) {
       // Possible future support for PUT, etc..
     }
   }
+
+  $scope.getIndexForCategory = function(name){
+    var category = _.find($scope.categories, function(c, i){ return c.name === name});
+    return _.indexOf($scope.categories, category);
+  }
+
+
+  
 
   $scope.add = function(){
     $(".addFormContainer").toggle();
