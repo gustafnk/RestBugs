@@ -108,7 +108,7 @@ app.post('/bugs/backlog', function(req, res){
 	var setResponse = function(res){
 				
 		if (isHuman(req.headers.host)) {
-			res.redirect("/bugs/");
+			res.redirect("/bugs/backlog");
 		}			
 		else {
 			var statusCode = 201;
