@@ -115,8 +115,7 @@ app.post('/bugs/backlog', function(req, res){
 			res.statusCode = statusCode;
 			res.render("response.html", {
 				statusCode: statusCode,
-				body: "Created bug",
-				renderWeb: isHuman(req.headers.host)
+				body: "Created bug"
 			});
 		}
 	};
