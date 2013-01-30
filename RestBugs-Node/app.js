@@ -85,9 +85,14 @@ app.get('/bugs/backlog', function(req, res){
 app.post('/bugs/backlog', function(req, res){
 
 	var setResponse = function(res){
-		var host = req.headers.host;
-		if (host && host.indexOf("9200") !== -1)
+
+		var isHuman = function(host){
+			return host && host.indexOf("9200") !== -1
+		};
+				
+		if (isHuman(req.headers.host)) {
 			res.redirect("/bugs/");
+		}			
 		else {
 			var statusCode = 201;
 			res.statusCode = statusCode;
