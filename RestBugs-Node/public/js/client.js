@@ -19,6 +19,31 @@ function BoardController($scope, $http) {
     $scope.load();
 
     $(".addFormContainer").html(restbugs.init.addForm);
+
+
+    // Hijax the add form container
+    $("form.new input[type=submit]").click(function(e){
+      e.preventDefault(); 
+
+      var $that = $(this);
+      var fields = {};
+
+      // Get the input fields values
+      _.each($("input[type!=submit]", $(this).parent()), function(item){
+        fields[$(item).attr("name")] = $(item).val();
+      });
+
+      $.post($(this).parent().attr("action"), fields).done(function(){
+        
+        $scope.load();
+        
+        // Empty the input fields
+        $(".addFormContainer").hide();
+        _.each($("input[type!=submit]", $that.parent()), function(item){
+          $(item).val("");
+        });
+      });
+    });
   }
 
   $scope.load = function(){
@@ -133,6 +158,7 @@ restbugs.init = restbugs.init || (function() {
         $("body").html(template);
         $("body").show();
         $(".addFormContainer").hide();
+
         var containerElement = $('body');
         angular.bootstrap(containerElement, ['board']); 
       });
