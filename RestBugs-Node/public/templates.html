@@ -25,7 +25,7 @@
                   <div ng-bind="bug.description"></div>
                   <div ng-repeat="action in bug.actions">
                     <!-- Could this be solved in a more "angular-ish" way? -->
-                    <button ng-click="move({currentCategory: category.name, action: action})" data-method="{{action.method}}" data-id="{{action.id}}" data-action="{{action.action}}" class="{{action.name}} btn">{{action.name}}</button>
+                    <button class="{{action.cssClass}}" ng-click="move({currentCategory: category.name, action: action})" data-method="{{action.method}}" data-id="{{action.id}}" data-action="{{action.action}}" class="{{action.name}} btn">{{action.name}}</button>
                   </div>
                 </li>
               </ul>

@@ -99,9 +99,6 @@ function BoardController($scope, $http) {
     return _.indexOf($scope.categories, category);
   }
 
-
-  
-
   $scope.add = function(){
     $(".addFormContainer").toggle();
   }
@@ -185,6 +182,7 @@ restbugs.domain = restbugs.dodmain || (function() {
             method: $(form).attr("method"),
             id: $("input[name=id]", form).attr("value"),
             name: $("input[name=submit]", form).attr("value"),
+            cssClass: $(form).attr("class")
           };
         };
 
