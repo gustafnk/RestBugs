@@ -1,6 +1,3 @@
-// TODO
-// btn-primary for nexts
-
 var board = angular.module('board', []);
 function BoardController($scope, $http) {
 
@@ -22,18 +19,10 @@ function BoardController($scope, $http) {
 
 
     // Hijax the add form container
-    $("form.new input[type=submit]").click(function(e){
-      e.preventDefault(); 
-
-      var $that = $(this);
-      var fields = {};
-
-      // Get the input fields values
-      _.each($("input[type!=submit]", $(this).parent()), function(item){
-        fields[$(item).attr("name")] = $(item).val();
-      });
-
-      $.post($(this).parent().attr("action"), fields).done(function(){
+    $("form.new").submit(function(){
+      
+      var $that = $(this);      
+      $.post($(this).attr("action"), $(this).serialize()).done(function(){
         
         $scope.load();
         
@@ -43,6 +32,8 @@ function BoardController($scope, $http) {
           $(item).val("");
         });
       });
+
+      return false;
     });
   }
 
@@ -58,7 +49,14 @@ function BoardController($scope, $http) {
       
         $scope.loadBugs(bugsDiv, link, index);
       });      
-    });   
+    });
+
+    // Ugly fix, try using $.when instead
+    setTimeout(function(){
+      $scope.bindActions();
+      $scope.enableDragAndDrop();    
+    }, 500);
+    
   }
 
   $scope.loadBugs = function(bugsDiv, link, index){
@@ -75,12 +73,21 @@ function BoardController($scope, $http) {
     if (indexForCategory === -1)
       $scope.categories.push(viewModel);
     else
-      $scope.categories[indexForCategory] = viewModel;
-
-
-    _.defer($scope.enableDragAndDrop);  
+      $scope.categories[indexForCategory] = viewModel;  
   }
 
+  $scope.bindActions = function(){
+    // Hijax the move forms
+    $("form.move").submit(function(){      
+      console.log("Wohoo, moving bug");
+      var $that = $(this);      
+      $.post($(this).attr("action"), $(this).serialize()).done(function(){        
+        $scope.load();                
+      });
+
+      return false;
+    });
+  }
 
   $scope.move = function(args){
     var action = args.action;
