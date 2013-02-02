@@ -54,15 +54,16 @@ function BoardController($scope, $http) {
       
       $http.get($(link).attr("href")).success(function(data){                  
         
-        var xmlDoc = $scope.parser.parseFromString(data,"text/xml");
-        $scope.loadBugs(xmlDoc, link, index);
+        var bugsDiv = $(data).filter(function(){ return $(this).attr("id") === "bugs" });
+      
+        $scope.loadBugs(bugsDiv, link, index);
       });      
     });   
   }
 
-  $scope.loadBugs = function(xmlDoc, link, index){
+  $scope.loadBugs = function(bugsDiv, link, index){
     
-    var bugs = restbugs.domain.getBugs(xmlDoc);
+    var bugs = restbugs.domain.getBugs(bugsDiv);
 
     var viewModel = {
       name: $(link).attr("rel"), 
@@ -170,8 +171,8 @@ restbugs.domain = restbugs.dodmain || (function() {
   "use strict";
 
   var module = {
-    getBugs : function (xmlDoc){
-      var bugsToParse = $(".all li", $(xmlDoc.getElementById("bugs")));
+    getBugs : function (bugsDiv){
+      var bugsToParse = $(".all li", bugsDiv);
 
       var parseBug = function(bugToParse){
 
@@ -187,11 +188,13 @@ restbugs.domain = restbugs.dodmain || (function() {
         };
 
         var actions = _.map($("form", bugToParse), parseAction);
+        var forms = $("form", bugToParse).html();
 
         return {
           title: $(".title", bugToParse).text(),
           description: $(".description", bugToParse).text(),
-          actions: actions            
+          actions: actions,
+          forms: forms
         };
     };
 
