@@ -22,11 +22,7 @@
               <ul class="unstyled">
                 <li class="bug well" ng-repeat="bug in category.bugs">
                   <strong ng-bind="bug.title"></strong>
-                  <div ng-bind="bug.description"></div>
-                  <div ng-repeat="action in bug.actions">
-                    <!-- Could this be solved in a more "angular-ish" way? -->
-                    <button class="{{action.cssClass}}" ng-click="move({currentCategory: category.name, action: action})" data-method="{{action.method}}" data-id="{{action.id}}" data-action="{{action.action}}" class="{{action.name}} btn">{{action.name}}</button>
-                  </div>                
+                  <div ng-bind="bug.description"></div>                  
                   <div class="actionContainer" ng-bind-html-unsafe="bug.forms"></div>
                 </li>
               </ul>

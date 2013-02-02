@@ -174,28 +174,14 @@ restbugs.domain = restbugs.dodmain || (function() {
       var bugsToParse = $(".all li", bugsDiv);
 
       var parseBug = function(bugToParse){
-        
-        var parseAction =function(form){        
-          return {
-            action: $(form).attr("action"),
-            nextCategory: $(form).attr("class").split(" ")[1], // TODO Make more robust
-            method: $(form).attr("method"),
-            id: $("input[name=id]", form).attr("value"),
-            name: $("input[name=submit]", form).attr("value"),
-            cssClass: $(form).attr("class")
-          };
-        };
-
-        var actions = _.map($("form", bugToParse), parseAction);
-                
+                                    
         var formsHtml = _.map($("form", bugToParse).clone().wrap('<p>').parent(), function(item){
           return $(item).html()
         }).join("\n");
 
         return {
           title: $(".title", bugToParse).text(),
-          description: $(".description", bugToParse).text(),
-          actions: actions,
+          description: $(".description", bugToParse).text(),          
           forms: formsHtml
         };
     };
