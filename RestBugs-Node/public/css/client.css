@@ -1,5 +1,3 @@
-@import url("/css/bootstrap.min.css");
-@import url("/css/bootstrap-responsive.min.css");
 
 .category {
   background-color: pink;
@@ -26,6 +24,15 @@
   display: block;
 }
 
-button.next {
+.actionContainer {
+  margin-top: 10px;
+}
+
+.actionContainer form {
+  margin: 5px 0;
+}
+
+.actionContainer form.next input{
   font-weight: bold;
 }
+
