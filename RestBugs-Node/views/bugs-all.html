@@ -11,9 +11,7 @@
         <% if(typeof(renderWeb) != 'undefined' && renderWeb) { %>
         <script>        
             Harvey.attach('screen and (min-width:867px)', {
-                setup: function() {
-                    console.log('SETUP', this.condition);
-
+                setup: function() {                    
                     $("body").hide();
                     $(function(){
                         $.getScript("/js/client.min.js");
@@ -25,12 +23,8 @@
                         });    
                     });
                     
-                },
-                on: function() {
-                    console.log('ON', this.condition);
-                },
-                off: function() {
-                    console.log('OFF', this.condition);
+                },                
+                off: function() {                    
                     location.reload();
                 }
             });
