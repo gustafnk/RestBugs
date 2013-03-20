@@ -108,7 +108,7 @@ app.post('/bugs/backlog', function(req, res){
 	var setResponse = function(res){
 				
 		if (isHuman(req.headers.host)) {
-			res.redirect("/bugs/");
+			res.redirect("/bugs/backlog");
 		}			
 		else {
 			var statusCode = 201;
@@ -135,6 +135,22 @@ app.post('/bugs/backlog', function(req, res){
 				});
 		});
 	} else {
+
+		var setResponseUpdate = function(res){
+				
+			if (isHuman(req.headers.host)) {
+				res.redirect("/bugs/backlog");
+			}			
+			else {
+				var statusCode = 201;
+				res.statusCode = statusCode;
+				res.render("response.html", {
+					statusCode: statusCode,
+					body: "Moved bug to backlog"
+				});
+			}
+		};
+
 		db.bugs.findOne( {_id: mongo.ObjectId(req.body.id) }, function(err, doc) {
 			//todo: return 404 if doc is undefined
 
@@ -142,11 +158,7 @@ app.post('/bugs/backlog', function(req, res){
 
 			db.bugs.update( {_id: mongo.ObjectId(req.body.id) }, doc, function(err, updatedDoc){
 				db.bugs.find({status:'Backlog'}, function(err, docs){
-					res.render('bugs-all.html', { 
-						title: "Backlog", 
-						model: docs,
-						renderWeb: isHuman(req.headers.host)
-					});	
+					setResponseUpdate(res);
 				});
 			});
 		});
@@ -169,13 +181,24 @@ app.post('/bugs/working', function(req, res){
 
 		activate(doc, req.body.comments);
 
+		var setResponse = function(res){
+				
+			if (isHuman(req.headers.host)) {
+				res.redirect("/bugs/working");
+			}			
+			else {
+				var statusCode = 201;
+				res.statusCode = statusCode;
+				res.render("response.html", {
+					statusCode: statusCode,
+					body: "Moved bug to working"
+				});
+			}
+		};
+
 		db.bugs.update( {_id: mongo.ObjectId(req.body.id) }, doc, function(err, updatedDoc){
 			db.bugs.find({status:'Working'}, function(err, docs){
-				res.render('bugs-all.html', { 
-					title: "Working", 
-					model: docs,
-					renderWeb: isHuman(req.headers.host) 
-				});	
+				setResponse(res);
 			});
 		});
 	});
@@ -197,13 +220,24 @@ app.post('/bugs/qa', function(req, res){
 
 		resolve(doc, req.body.comments);
 
+		var setResponse = function(res){
+				
+			if (isHuman(req.headers.host)) {
+				res.redirect("/bugs/qa");
+			}			
+			else {
+				var statusCode = 201;
+				res.statusCode = statusCode;
+				res.render("response.html", {
+					statusCode: statusCode,
+					body: "Moved bug to QA"
+				});
+			}
+		};
+
 		db.bugs.update( {_id: mongo.ObjectId(req.body.id) }, doc, function(err, updatedDoc){
 			db.bugs.find({status:'QA'}, function(err, docs){
-				res.render('bugs-all.html', { 
-					title: "QA", 
-					model: docs,
-					renderWeb: isHuman(req.headers.host) 
-				});	
+				setResponse(res);
 			});
 		});
 	});
@@ -225,13 +259,24 @@ app.post('/bugs/done', function(req, res){
 
 		close(doc, req.body.comments);
 
+		var setResponse = function(res){
+				
+			if (isHuman(req.headers.host)) {
+				res.redirect("/bugs/done");
+			}			
+			else {
+				var statusCode = 201;
+				res.statusCode = statusCode;
+				res.render("response.html", {
+					statusCode: statusCode,
+					body: "Moved bug to done"
+				});
+			}
+		};
+
 		db.bugs.update( {_id: mongo.ObjectId(req.body.id) }, doc, function(err, updatedDoc){
 			db.bugs.find({status:'Done'}, function(err, docs){
-				res.render('bugs-all.html', { 
-					title: "Done", 
-					model: docs,
-					renderWeb: isHuman(req.headers.host)
-				});	
+				setResponse(res);
 			});
 		});
 	});
