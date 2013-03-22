@@ -1,5 +1,5 @@
 /*Setup*/
-var express = require('express'); // used 2.5.9
+var express = require('express');
 
 var databaseUrl = "restbugs";
 var collections = ["bugs"];
@@ -27,7 +27,7 @@ app.configure(function(){
 	app.set('view options', {
 		layout: false
 	});
-	app.use(express.bodyParser());	//where is app.use defined and what does it do??
+	app.use(express.bodyParser());
 	app.use(express.static(__dirname + '/public'));
 });
 
@@ -85,11 +85,7 @@ app.get('/bugs', function(req, res){
 });
 
 app.get('/bugs/backlog', function(req, res){
-
-	//var userAgent = req.headers["user-agent"];
-	//console.log(userAgent);
-	// TODO Grep for Mobile and load different js and css
-
+	
 	db.bugs.find({status: 'Backlog'}, function(err, docs) {
 		res.render('bugs-all.ejs', { 
 			title: "Backlog", 
@@ -103,54 +99,35 @@ var isHuman = function(host){
 	return host && host.indexOf(webPort) !== -1
 };
 
-app.post('/bugs/backlog', function(req, res){
-
-	var setResponse = function(res){
+var setResponse = function(req, res, redirectUrl, statusCode, body){
 				
-		if (isHuman(req.headers.host)) {
-			res.redirect("/bugs/backlog");
-		}			
-		else {
-			var statusCode = 201;
-			res.statusCode = statusCode;
-			res.render("response.ejs", {
-				statusCode: statusCode,
-				body: "Created bug"
-			});
-		}
-	};
+	if (isHuman(req.headers.host)) {
+		res.redirect(redirectUrl);
+	}			
+	else {
+		var statusCode = statusCode;
+		res.statusCode = statusCode;
+		res.render("response.ejs", {
+			statusCode: statusCode,
+			body: body
+		});
+	}
+};
 
+app.post('/bugs/backlog', function(req, res){
+	
 	//todo: consider replacing with upsert-style call
 	if(req.body.id===undefined) {
-
-		// NOTE For debugging
-		//setResponse(res);
-		//return;
 
 		db.bugs.save(
 			newbug(req.body.title, req.body.description), 
 			function(err, savedDoc) {
 				db.bugs.find( {status: 'Backlog'}, function(err, docs) {
-					setResponse(res);		
+					setResponse(req, res, "/bugs/backlog", 201, "Created bug");		
 				});
 		});
 	} else {
-
-		var setResponseUpdate = function(res){
-				
-			if (isHuman(req.headers.host)) {
-				res.redirect("/bugs/backlog");
-			}			
-			else {
-				var statusCode = 201;
-				res.statusCode = statusCode;
-				res.render("response.ejs", {
-					statusCode: statusCode,
-					body: "Moved bug to backlog"
-				});
-			}
-		};
-
+		
 		db.bugs.findOne( {_id: mongo.ObjectId(req.body.id) }, function(err, doc) {
 			//todo: return 404 if doc is undefined
 
@@ -158,7 +135,7 @@ app.post('/bugs/backlog', function(req, res){
 
 			db.bugs.update( {_id: mongo.ObjectId(req.body.id) }, doc, function(err, updatedDoc){
 				db.bugs.find({status:'Backlog'}, function(err, docs){
-					setResponseUpdate(res);
+					setResponse(req, res, "/bugs/backlog", 201, "Moved bug to backlog");
 				});
 			});
 		});
@@ -180,25 +157,10 @@ app.post('/bugs/working', function(req, res){
 		//todo: return 404 if doc is undefined
 
 		activate(doc, req.body.comments);
-
-		var setResponse = function(res){
-				
-			if (isHuman(req.headers.host)) {
-				res.redirect("/bugs/working");
-			}			
-			else {
-				var statusCode = 201;
-				res.statusCode = statusCode;
-				res.render("response.ejs", {
-					statusCode: statusCode,
-					body: "Moved bug to working"
-				});
-			}
-		};
-
+		
 		db.bugs.update( {_id: mongo.ObjectId(req.body.id) }, doc, function(err, updatedDoc){
 			db.bugs.find({status:'Working'}, function(err, docs){
-				setResponse(res);
+				setResponse(req, res, "/bugs/working", 201, "Moved bug to working");
 			});
 		});
 	});
@@ -219,25 +181,10 @@ app.post('/bugs/qa', function(req, res){
 		//todo: return 404 if doc is undefined
 
 		resolve(doc, req.body.comments);
-
-		var setResponse = function(res){
-				
-			if (isHuman(req.headers.host)) {
-				res.redirect("/bugs/qa");
-			}			
-			else {
-				var statusCode = 201;
-				res.statusCode = statusCode;
-				res.render("response.ejs", {
-					statusCode: statusCode,
-					body: "Moved bug to QA"
-				});
-			}
-		};
-
+		
 		db.bugs.update( {_id: mongo.ObjectId(req.body.id) }, doc, function(err, updatedDoc){
 			db.bugs.find({status:'QA'}, function(err, docs){
-				setResponse(res);
+				setResponse(req, res, "/bugs/qa", 201, "Moved bug to QA");
 			});
 		});
 	});
@@ -258,25 +205,10 @@ app.post('/bugs/done', function(req, res){
 		//todo: return 404 if doc is undefined
 
 		close(doc, req.body.comments);
-
-		var setResponse = function(res){
-				
-			if (isHuman(req.headers.host)) {
-				res.redirect(303, "http://localhost:9200/bugs/done");
-			}			
-			else {
-				var statusCode = 201;
-				res.statusCode = statusCode;
-				res.render("response.ejs", {
-					statusCode: statusCode,
-					body: "Moved bug to done"
-				});
-			}
-		};
-
+		
 		db.bugs.update( {_id: mongo.ObjectId(req.body.id) }, doc, function(err, updatedDoc){
 			db.bugs.find({status:'Done'}, function(err, docs){
-				setResponse(res);
+				setResponse(req, res, "http://localhost:9200/bugs/done", 201, "Moved bug to done");
 			});
 		});
 	});
