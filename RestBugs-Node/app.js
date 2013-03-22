@@ -1,5 +1,5 @@
 /*Setup*/
-var express = require('express');
+var express = require('express'); // used 2.5.9
 
 var databaseUrl = "restbugs";
 var collections = ["bugs"];
@@ -17,13 +17,13 @@ else {
 }
 
 
-var app = express.createServer();
+var app = express();
 app.listen(port);
 
 var webPort = "9200";
 
 app.configure(function(){
-	app.register('.html', require('ejs'));
+	app.set('view engine', 'ejs');
 	app.set('view options', {
 		layout: false
 	});
@@ -78,7 +78,7 @@ function newbug(title, description){
 
 app.get('/bugs', function(req, res){
 	console.log();
-	res.render('bugs-all.html', { 
+	res.render('bugs-all.ejs', { 
 		title: "Index",
 		renderWeb: isHuman(req.headers.host)
 	});
@@ -91,7 +91,7 @@ app.get('/bugs/backlog', function(req, res){
 	// TODO Grep for Mobile and load different js and css
 
 	db.bugs.find({status: 'Backlog'}, function(err, docs) {
-		res.render('bugs-all.html', { 
+		res.render('bugs-all.ejs', { 
 			title: "Backlog", 
 			model: docs,
 			renderWeb: isHuman(req.headers.host)
@@ -113,7 +113,7 @@ app.post('/bugs/backlog', function(req, res){
 		else {
 			var statusCode = 201;
 			res.statusCode = statusCode;
-			res.render("response.html", {
+			res.render("response.ejs", {
 				statusCode: statusCode,
 				body: "Created bug"
 			});
@@ -144,7 +144,7 @@ app.post('/bugs/backlog', function(req, res){
 			else {
 				var statusCode = 201;
 				res.statusCode = statusCode;
-				res.render("response.html", {
+				res.render("response.ejs", {
 					statusCode: statusCode,
 					body: "Moved bug to backlog"
 				});
@@ -167,7 +167,7 @@ app.post('/bugs/backlog', function(req, res){
 
 app.get('/bugs/working', function(req, res){
 	db.bugs.find({status:'Working'}, function(err, docs){
-		res.render('bugs-all.html', { 
+		res.render('bugs-all.ejs', { 
 			title: "Working", 
 			model: docs,
 			renderWeb: isHuman(req.headers.host) 
@@ -189,7 +189,7 @@ app.post('/bugs/working', function(req, res){
 			else {
 				var statusCode = 201;
 				res.statusCode = statusCode;
-				res.render("response.html", {
+				res.render("response.ejs", {
 					statusCode: statusCode,
 					body: "Moved bug to working"
 				});
@@ -206,7 +206,7 @@ app.post('/bugs/working', function(req, res){
 
 app.get('/bugs/qa', function(req, res){
 	db.bugs.find({status:'QA'}, function(err, docs){
-		res.render('bugs-all.html', { 
+		res.render('bugs-all.ejs', { 
 			title: "QA", 
 			model: docs,
 			renderWeb: isHuman(req.headers.host)
@@ -228,7 +228,7 @@ app.post('/bugs/qa', function(req, res){
 			else {
 				var statusCode = 201;
 				res.statusCode = statusCode;
-				res.render("response.html", {
+				res.render("response.ejs", {
 					statusCode: statusCode,
 					body: "Moved bug to QA"
 				});
@@ -245,7 +245,7 @@ app.post('/bugs/qa', function(req, res){
 
 app.get('/bugs/done', function(req, res){
 	db.bugs.find({status:'Done'}, function(err, docs){
-		res.render('bugs-all.html', { 
+		res.render('bugs-all.ejs', { 
 			title: "Done", 
 			model: docs,
 			renderWeb: isHuman(req.headers.host)
@@ -262,12 +262,12 @@ app.post('/bugs/done', function(req, res){
 		var setResponse = function(res){
 				
 			if (isHuman(req.headers.host)) {
-				res.redirect("/bugs/done");
+				res.redirect(303, "http://localhost:9200/bugs/done");
 			}			
 			else {
 				var statusCode = 201;
 				res.statusCode = statusCode;
-				res.render("response.html", {
+				res.render("response.ejs", {
 					statusCode: statusCode,
 					body: "Moved bug to done"
 				});
