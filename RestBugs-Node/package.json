@@ -1,0 +1,12 @@
+{
+  "name": "RestBugs",
+  "version": "0.1.0",
+  "description": "A simple, hypermedia-driven bug tracking API. This fork is extended with 1) Simple 'mobile' version 2) Rich JS app using AWD techniques.",
+  "author": "Gustaf Nilsson Kotte <gustaf.nk@gmail.com>, Howard Dierking",
+  "dependencies": {
+    "express": ">= 3.1.0",
+    "ejs": ">= 0.7.1",
+    "mongojs": ">= 0.4.3"
+  },
+  "engine": "node 0.8.19"
+}
