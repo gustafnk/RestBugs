@@ -7,11 +7,11 @@ body {
   margin-top: 20px;
 }
 
-em, .github {
+em, a[rel=github] {
   font-size: 0.7em;
 }
 
-.github {
+a[rel=github] {
   margin-top: 25px;
   display: block;
 }

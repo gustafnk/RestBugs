@@ -146,7 +146,7 @@ restbugs.init = restbugs.init || (function() {
 
   var module = {
     load : function (){
-      this.links = $("a[rel!=index]");
+      this.links = $("a[rel!=index][rel!=github]");
       this.addForm = $("form.new");
 
       // Load template and bootstrap angular
