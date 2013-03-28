@@ -32,7 +32,9 @@
         </script>
         <% } %>
 
+        <% if(typeof(renderWeb) != 'undefined' && renderWeb) { %>
         <em>Try to resize your window...</em>
+        <% } %>
         <h1>RestBugs : <%= title %></h1>
         <div id="bugs">
             <% if(typeof(model) != 'undefined') { %>
@@ -125,7 +127,9 @@
             <a href="/done" rel="done">Done</a>
         </div>
 
+        <% if(typeof(renderWeb) != 'undefined' && renderWeb) { %>
         <a href="https://github.com/gustafnk/RestBugs" class="github">Github repo here</a>
+        <% } %>
 
         <!-- for debug
         <script src="/js/jquery-ui-1.10.0.custom.min.js"></script>
