@@ -8,6 +8,7 @@
             <ul class="nav">
               <li><a href="#" ng-click="add()">Add bug</a></li>
             </ul>
+            <em>Try to resize your window...</em>
           </div>
         </div>
       </header>
@@ -22,12 +23,12 @@
               <ul class="unstyled">
                 <li class="bug well" ng-repeat="bug in category.bugs">
                   <strong ng-bind="bug.title"></strong>
-                  <div ng-bind="bug.description"></div>                  
+                  <div ng-bind="bug.description"></div>
                   <div class="actionContainer" ng-bind-html-unsafe="bug.forms"></div>
                 </li>
               </ul>
             </div>
-        </div>   
+        </div>
       </div>
 
     </div>

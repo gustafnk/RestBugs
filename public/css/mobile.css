@@ -3,10 +3,13 @@ body {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   color: #333;
   margin: 0 auto;
-  background-color: #f0f0f0;  
+  background-color: #f0f0f0;
   margin-top: 20px;
 }
 
+em {
+  font-size: 0.7em;
+}
 
 form.new input {
   display: block;
