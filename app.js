@@ -18,6 +18,7 @@ var app = express();
 app.listen(port);
 
 var webPort = "9200";
+var webHost = "restbugs.herokuapp.com"
 
 app.configure(function(){
 	app.set('view engine', 'ejs');
@@ -73,7 +74,7 @@ function newbug(title, description){
 
 /*API Surface*/
 
-app.get('/bugs', function(req, res){
+app.get('/', function(req, res){
 	console.log();
 	res.render('bugs-all.ejs', {
 		title: "Index",
@@ -81,7 +82,7 @@ app.get('/bugs', function(req, res){
 	});
 });
 
-app.get('/bugs/backlog', function(req, res){
+app.get('/backlog', function(req, res){
 
 	db.bugs.find({status: 'Backlog'}, function(err, docs) {
 		res.render('bugs-all.ejs', {
@@ -93,7 +94,8 @@ app.get('/bugs/backlog', function(req, res){
 });
 
 var isHuman = function(host){
-	return host && host.indexOf(webPort) !== -1
+	//console.log(host);
+	return host && (host.indexOf(webPort) !== -1 || host.indexOf(webHost) !== -1)
 };
 
 var setResponse = function(req, res, redirectUrl, statusCode, body){
@@ -111,7 +113,7 @@ var setResponse = function(req, res, redirectUrl, statusCode, body){
 	}
 };
 
-app.post('/bugs/backlog', function(req, res){
+app.post('/backlog', function(req, res){
 
 	//todo: consider replacing with upsert-style call
 	if(req.body.id===undefined) {
@@ -120,7 +122,7 @@ app.post('/bugs/backlog', function(req, res){
 			newbug(req.body.title, req.body.description),
 			function(err, savedDoc) {
 				db.bugs.find( {status: 'Backlog'}, function(err, docs) {
-					setResponse(req, res, "/bugs/backlog", 201, "Created bug");
+					setResponse(req, res, "/backlog", 201, "Created bug");
 				});
 		});
 	} else {
@@ -132,14 +134,14 @@ app.post('/bugs/backlog', function(req, res){
 
 			db.bugs.update( {_id: mongo.ObjectId(req.body.id) }, doc, function(err, updatedDoc){
 				db.bugs.find({status:'Backlog'}, function(err, docs){
-					setResponse(req, res, "/bugs/backlog", 201, "Moved bug to backlog");
+					setResponse(req, res, "/backlog", 201, "Moved bug to backlog");
 				});
 			});
 		});
 	}
 });
 
-app.get('/bugs/working', function(req, res){
+app.get('/working', function(req, res){
 	db.bugs.find({status:'Working'}, function(err, docs){
 		res.render('bugs-all.ejs', {
 			title: "Working",
@@ -149,7 +151,7 @@ app.get('/bugs/working', function(req, res){
 	});
 });
 
-app.post('/bugs/working', function(req, res){
+app.post('/working', function(req, res){
 	db.bugs.findOne( {_id: mongo.ObjectId(req.body.id) }, function(err, doc) {
 		//todo: return 404 if doc is undefined
 
@@ -157,13 +159,13 @@ app.post('/bugs/working', function(req, res){
 
 		db.bugs.update( {_id: mongo.ObjectId(req.body.id) }, doc, function(err, updatedDoc){
 			db.bugs.find({status:'Working'}, function(err, docs){
-				setResponse(req, res, "/bugs/working", 201, "Moved bug to working");
+				setResponse(req, res, "/working", 201, "Moved bug to working");
 			});
 		});
 	});
 });
 
-app.get('/bugs/qa', function(req, res){
+app.get('/qa', function(req, res){
 	db.bugs.find({status:'QA'}, function(err, docs){
 		res.render('bugs-all.ejs', {
 			title: "QA",
@@ -173,7 +175,7 @@ app.get('/bugs/qa', function(req, res){
 	});
 });
 
-app.post('/bugs/qa', function(req, res){
+app.post('/qa', function(req, res){
 	db.bugs.findOne( {_id: mongo.ObjectId(req.body.id) }, function(err, doc) {
 		//todo: return 404 if doc is undefined
 
@@ -181,13 +183,13 @@ app.post('/bugs/qa', function(req, res){
 
 		db.bugs.update( {_id: mongo.ObjectId(req.body.id) }, doc, function(err, updatedDoc){
 			db.bugs.find({status:'QA'}, function(err, docs){
-				setResponse(req, res, "/bugs/qa", 201, "Moved bug to QA");
+				setResponse(req, res, "/qa", 201, "Moved bug to QA");
 			});
 		});
 	});
 });
 
-app.get('/bugs/done', function(req, res){
+app.get('/done', function(req, res){
 	db.bugs.find({status:'Done'}, function(err, docs){
 		res.render('bugs-all.ejs', {
 			title: "Done",
@@ -197,7 +199,7 @@ app.get('/bugs/done', function(req, res){
 	});
 });
 
-app.post('/bugs/done', function(req, res){
+app.post('/done', function(req, res){
 	db.bugs.findOne( {_id: mongo.ObjectId(req.body.id) }, function(err, doc) {
 		//todo: return 404 if doc is undefined
 
@@ -205,7 +207,7 @@ app.post('/bugs/done', function(req, res){
 
 		db.bugs.update( {_id: mongo.ObjectId(req.body.id) }, doc, function(err, updatedDoc){
 			db.bugs.find({status:'Done'}, function(err, docs){
-				setResponse(req, res, "http://localhost:9200/bugs/done", 201, "Moved bug to done");
+				setResponse(req, res, "http://localhost:9200/done", 201, "Moved bug to done");
 			});
 		});
 	});

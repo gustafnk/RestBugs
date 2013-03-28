@@ -1,17 +1,17 @@
 <html>
 	<head>
-		<title>RestBugs : <%= title %></title> 
+		<title>RestBugs : <%= title %></title>
         <% if(typeof(renderWeb) != 'undefined' && renderWeb) { %>
             <link href="/css/mobile.css" rel="stylesheet" media="screen" />
             <script src="/js/lib/jquery-1.9.0.min.js"></script>
             <script src="/js/lib/harvey.js"></script>
-        <% } %>    
+        <% } %>
 	</head>
     <body>
         <% if(typeof(renderWeb) != 'undefined' && renderWeb) { %>
-        <script>        
+        <script>
             Harvey.attach('screen and (min-width:867px)', {
-                setup: function() {                    
+                setup: function() {
                     $("body").hide();
                     $(function(){
                         $.getScript("/js/client.min.js");
@@ -20,24 +20,24 @@
                            $('<style type="text/css"></style>')
                               .html(css)
                               .appendTo("head");
-                        });    
+                        });
                     });
-                    
-                },                
-                off: function() {                    
+
+                },
+                off: function() {
                     location.reload();
                 }
             });
-        
+
         </script>
         <% } %>
         <h1>RestBugs : <%= title %></h1>
         <div id="bugs">
             <% if(typeof(model) != 'undefined') { %>
-            
+
                 <ul class="all">
-                    <% 
-                        for(var i=0; i < model.length; i++) { 
+                    <%
+                        for(var i=0; i < model.length; i++) {
                             var bug = model[i];
                     %>
 
@@ -47,9 +47,9 @@
 
                             <% if(bug.status == "Backlog") { %>
 
-                            <form class="move working next" action="/bugs/working" method="POST" title="Move to Working" >
+                            <form class="move working next" action="/working" method="POST" title="Move to Working" >
                                 <input name="id" type="hidden" value="<%= bug._id %>"/>
-                                
+
                                 <input name="submit" type="submit" value="Move to Working"/>
                             </form>
 
@@ -58,37 +58,37 @@
 
                             <% if(bug.status == "Working") { %>
 
-                            <form class="move backlog" action="/bugs/backlog" method="POST" title="Move to Backlog" >
+                            <form class="move backlog" action="/backlog" method="POST" title="Move to Backlog" >
                                 <input name="id" type="hidden" value="<%= bug._id %>"/>
-                                
+
                                 <input name="submit" type="submit" value="Move to Backlog"/>
                             </form>
-                            <form class="move qa next" action="/bugs/qa" method="POST" title="Move to QA" >
+                            <form class="move qa next" action="/qa" method="POST" title="Move to QA" >
                                 <input name="id" type="hidden" value="<%= bug._id %>"/>
-                                
+
                                 <input name="submit" type="submit" value="Move to QA"/>
                             </form>
 
                             <% } %>
 
                             <% if(bug.status == "Done") { %>
-                            
-                            <form class="move working" action="/bugs/working" method="POST" title="Move to Working" >
-                                <input name="id" type="hidden" value="<%= bug._id %>"/>                                
+
+                            <form class="move working" action="/working" method="POST" title="Move to Working" >
+                                <input name="id" type="hidden" value="<%= bug._id %>"/>
                                 <input name="submit" type="submit" value="Move to Working"/>
                             </form>
 
                             <% } %>
 
                             <% if(bug.status == "QA") { %>
-                            
-                            <form class="move working" action="/bugs/working" method="POST" title="Move to Working" >
-                                <input name="id" type="hidden" value="<%= bug._id %>"/>                                
+
+                            <form class="move working" action="/working" method="POST" title="Move to Working" >
+                                <input name="id" type="hidden" value="<%= bug._id %>"/>
                                 <input name="submit" type="submit" value="Move to Working"/>
                             </form>
 
-                            <form class="move done next" action="/bugs/done" method="POST" title="Move to Done" >
-                                <input name="id" type="hidden" value="<%= bug._id %>"/>                                
+                            <form class="move done next" action="/done" method="POST" title="Move to Done" >
+                                <input name="id" type="hidden" value="<%= bug._id %>"/>
                                 <input name="submit" type="submit" value="Move to Done"/>
                             </form>
 
@@ -105,7 +105,7 @@
             <% if(typeof(model) == 'undefined') { %>
 
             <h2>Add a new bug</h2>
-            <form class="new backlog" action="/bugs/backlog" method="POST" title="Add a new bug" >
+            <form class="new backlog" action="/backlog" method="POST" title="Add a new bug" >
                 Title: <input name="title" type="text" value=""/>
                 Description: <input name="description" type="text" value=""/>
                 <input name="submit" type="submit" value="Add to Backlog"/>
@@ -113,14 +113,14 @@
 
             <% } %>
         </div>
-        
+
         <div id="links">
             <h2>Navigation</h2>
-            <a href="/bugs" rel="index">Index</a><br/>
-            <a href="/bugs/backlog" rel="backlog">Backlog</a><br/>
-            <a href="/bugs/working" rel="working">Working</a><br/>
-            <a href="/bugs/qa" rel="qa">In QA</a><br/>
-            <a href="/bugs/done" rel="done">Done</a>    
+            <a href="/" rel="index">Index</a><br/>
+            <a href="/backlog" rel="backlog">Backlog</a><br/>
+            <a href="/working" rel="working">Working</a><br/>
+            <a href="/qa" rel="qa">In QA</a><br/>
+            <a href="/done" rel="done">Done</a>
         </div>
 
         <!-- for debug
