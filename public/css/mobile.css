@@ -7,8 +7,13 @@ body {
   margin-top: 20px;
 }
 
-em {
+em, .github {
   font-size: 0.7em;
+}
+
+.github {
+  margin-top: 25px;
+  display: block;
 }
 
 form.new input {
