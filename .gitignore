@@ -11,3 +11,4 @@ _ReSharper*
 Packages/
 packages/
 node_modules
+.env
