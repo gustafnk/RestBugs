@@ -10,7 +10,7 @@
     <body>
         <% if(typeof(renderWeb) != 'undefined' && renderWeb) { %>
         <script>
-            Harvey.attach('screen and (min-width:867px)', {
+            Harvey.attach('screen and (min-width:1000px)', {
                 setup: function() {
                     $("body").hide();
                     $(function(){
@@ -32,9 +32,6 @@
         </script>
         <% } %>
 
-        <% if(typeof(renderWeb) != 'undefined' && renderWeb) { %>
-        <em>Try to resize your window...</em>
-        <% } %>
         <h1>RestBugs : <%= title %></h1>
         <div id="bugs">
             <% if(typeof(model) != 'undefined') { %>
