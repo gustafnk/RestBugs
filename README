@@ -1,1 +1,8 @@
 This intent of this branch is to use it as an internal lab for Jayway.
+
+To start the app
+> node app.js 9200
+
+This will use a mongo database on mongolab.
+
+If you want to use a local database, read line 4 and 5 in app.js. You need to have mongodb installed an running for this.
