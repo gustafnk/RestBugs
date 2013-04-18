@@ -1,36 +1,20 @@
 <html>
 	<head>
 		<title>RestBugs : <%= title %></title>
-        <% if(typeof(renderWeb) != 'undefined' && renderWeb) { %>
             <link href="/css/mobile.css" rel="stylesheet" media="screen" />
             <script src="/js/lib/jquery-1.9.0.min.js"></script>
             <script src="/js/lib/harvey.js"></script>
-        <% } %>
 	</head>
     <body>
-        <% if(typeof(renderWeb) != 'undefined' && renderWeb) { %>
         <script>
             Harvey.attach('screen and (min-width:1000px)', {
                 setup: function() {
-                    $("body").hide();
-                    $(function(){
-                        $.getScript("/js/client.min.js");
-                        $('head link, head style').remove();
-                        $.get("/css/client.min.css", function(css) {
-                           $('<style type="text/css"></style>')
-                              .html(css)
-                              .appendTo("head");
-                        });
-                    });
-
                 },
                 off: function() {
-                    location.reload();
                 }
             });
 
         </script>
-        <% } %>
 
         <h1>RestBugs : <%= title %></h1>
         <div id="bugs">
@@ -124,16 +108,12 @@
             <a href="/done" rel="done">Done</a>
         </div>
 
-        <% if(typeof(renderWeb) != 'undefined' && renderWeb) { %>
-        <a href="https://github.com/gustafnk/RestBugs" rel="github">Github repo here</a>
-        <% } %>
-
         <!-- for debug
         <script src="/js/jquery-ui-1.10.0.custom.min.js"></script>
         <script src="/js/underscore-min.js"></script>
         <script src="/js/bootstrap.min.js"></script>
         <script src="/js/angular.min.js"></script>
         <script src="/js/client.js"></script>
-    -->
+        -->
     </body>
 </html>
