@@ -1,7 +1,11 @@
-For demo, see 
--   http://restbugs.herokuapp.com
--   http://restbugs-api.herokuapp.com
+This intent of this branch is to use it as an internal lab for Jayway.
 
-Also, checkout https://github.com/gustafnk/combining-html-hypermedia-apis-and-adaptive-web-design
+To install the dependencies
+> npm install
 
-Feel free to contact me on twitter (http://twitter.com/gustaf_nk) for comments or questions.
+To start the app
+> node app.js 9200
+
+This will use a mongo database on mongolab.
+
+If you want to use a local database, read line 4 and 5 in app.js. You need to have mongodb installed an running for this.
