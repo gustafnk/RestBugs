@@ -18,7 +18,7 @@ var app = express();
 app.listen(port);
 
 var webPort = "9200";
-var webHost = "restbugs.herokuapp.com"
+var webHost = "restbugs-jayway.herokuapp.com"
 
 app.configure(function(){
 	app.set('view engine', 'ejs');
