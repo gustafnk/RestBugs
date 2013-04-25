@@ -207,7 +207,7 @@ app.post('/done', function(req, res){
 
 		db.bugs.update( {_id: mongo.ObjectId(req.body.id) }, doc, function(err, updatedDoc){
 			db.bugs.find({status:'Done'}, function(err, docs){
-				setResponse(req, res, "http://localhost:9200/done", 201, "Moved bug to done");
+				setResponse(req, res, "/done", 201, "Moved bug to done");
 			});
 		});
 	});
