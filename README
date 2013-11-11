@@ -1,6 +1,6 @@
-For demo, see 
--   http://restbugs.herokuapp.com
--   http://restbugs-api.herokuapp.com
+This is a fork of Howard Dierking's RestBugs, where I've used Adaptive Web Design on top of the HTML hypermedia API. However, the client layer is not written in according to Progressive Enhancement, so it's more a proof-of-concept than anything else.
+
+I have written a new version in Ruby on Rails, found here https://github.com/gustafnk/kanban-awd-api. It's using a lot of server-rendered markup, together with TurboLinks and a small amount of JavaScript which allows for Aggressive Enhancement and conditional loading (based on screen size).
 
 Also, checkout https://github.com/gustafnk/combining-html-hypermedia-apis-and-adaptive-web-design
 
